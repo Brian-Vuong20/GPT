@@ -11,6 +11,8 @@
         <input type="text" class="user_input" name="prompt"/>
         <button type="submit" class="user_submit">Enter</button>
     </form>
- <%= data %>
+ <%if(typeof data != "undefined") { %>
+    <%= data %>
+<%}%>
 </body>
 </html>

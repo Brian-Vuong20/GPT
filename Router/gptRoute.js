@@ -8,6 +8,10 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
+router.get("/", (req, res) => {
+  res.render("index");
+});
+
 router.post("/chat", async (req, res) => {
   const prompt = req.body.prompt;
   const messages = [
@@ -25,7 +29,7 @@ router.post("/chat", async (req, res) => {
     model: "gpt-3.5-turbo",
     messages,
   });
-  res.render("index", { data: gptRes.data.choices[0].message.content });
+  console.log(gptRes.data.choices[0].message.content);
 });
 
 module.exports = router;
