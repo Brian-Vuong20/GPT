@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const express = require("express");
 const router = express.Router();
 
@@ -13,28 +14,24 @@ router.get("/", (req, res) => {
 });
 
 router.post("/chat", async (req, res) => {
-  const prompt = req.body.prompt;
-  const messages = [
-    {
-      role: "system",
-      content: "Tell me a joke if i said i am sad, unhappy.",
-    },
-    {
-      role: "system",
-      content: "List medicines i should take if i am sick or unwell",
-    },
-    { role: "user", content: prompt },
-  ];
   try {
-    const gptRes = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
-      temperature: 0,
-      max_tokens: 1000,
-      messages,
-    });
-    res.render("index", { data: gptRes.data.choices[0].message.content });
-  } catch (err) {
-    console.log(err);
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        messages: [{ role: "user", content: "Hello" }],
+        model: "gpt-3.5-turbo",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    res.render("index", { data: response.data.choices[0].message.content });
+  } catch (error) {
+    console.error("Error:", error.response.data);
+    throw error;
   }
 });
 
