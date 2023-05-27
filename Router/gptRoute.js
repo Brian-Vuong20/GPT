@@ -17,9 +17,22 @@ router.post("/chat", async (req, res) => {
   await axios
     .post(
       "https://api.openai.com/v1/chat/completions",
+
       {
-        messages: [{ role: "user", content: "Hello" }],
+        messages: [
+          {
+            role: "system",
+            content:
+              "List all medicine if i am feeling unwell, all kind of sicks",
+          },
+          {
+            role: "system",
+            content: "Tell me a joke if i am unhappy",
+          },
+          { role: "user", content: req.body.prompt },
+        ],
         model: "gpt-3.5-turbo",
+        temperature: 0,
       },
       {
         headers: {
