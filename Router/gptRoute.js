@@ -27,7 +27,7 @@ router.post("/chat", async (req, res) => {
           },
           {
             role: "system",
-            content: "Tell me a joke if i am unhappy",
+            content: "Tell me variety of joke if i am unhappy",
           },
           { role: "user", content: req.body.prompt },
         ],
