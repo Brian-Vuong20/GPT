@@ -29,7 +29,7 @@ router.post("/chat", async (req, res) => {
     model: "gpt-3.5-turbo",
     messages,
   });
-  console.log(gptRes.data.choices[0].message.content);
+  res.render("index", { data: gptRes.data.choices[0].message.content });
 });
 
 module.exports = router;
