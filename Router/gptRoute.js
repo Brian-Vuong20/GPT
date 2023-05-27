@@ -25,13 +25,17 @@ router.post("/chat", async (req, res) => {
     },
     { role: "user", content: prompt },
   ];
-  const gptRes = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
-    temperature: 0,
-    max_tokens: 1000,
-    messages,
-  });
-  res.render("index", { data: gptRes.data.choices[0].message.content });
+  try {
+    const gptRes = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      temperature: 0,
+      max_tokens: 1000,
+      messages,
+    });
+    res.render("index", { data: gptRes.data.choices[0].message.content });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;
