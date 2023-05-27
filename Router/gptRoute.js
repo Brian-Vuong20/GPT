@@ -14,8 +14,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/chat", async (req, res) => {
-  try {
-    const response = await axios.post(
+  await axios
+    .post(
       "https://api.openai.com/v1/chat/completions",
       {
         messages: [{ role: "user", content: "Hello" }],
@@ -23,16 +23,20 @@ router.post("/chat", async (req, res) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         },
       }
-    );
-    res.render("index", { data: response.data.choices[0].message.content });
-  } catch (error) {
-    console.error("Error:", error.response.data);
-    throw error;
-  }
+    )
+    .then((resp) => {
+      let data = resp.data.choices[0].message.content;
+      res.render("index", {
+        data: data,
+      });
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
 });
 
 module.exports = router;
