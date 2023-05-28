@@ -23,16 +23,16 @@ router.post("/chat", async (req, res) => {
           {
             role: "system",
             content:
-              "List all medicine if i am feeling unwell, all kind of sicks",
+              "List all medicine if i am feeling unwell, all kind of sickness",
           },
           {
             role: "system",
-            content: "Tell me variety of joke if i am unhappy",
+            content: "Tell me dad jokes everytime i said i feel sad, unhappy",
           },
           { role: "user", content: req.body.prompt },
         ],
         model: "gpt-3.5-turbo",
-        temperature: 0,
+        temperature: 0.5,
       },
       {
         headers: {
@@ -43,6 +43,7 @@ router.post("/chat", async (req, res) => {
     )
     .then((resp) => {
       let data = resp.data.choices[0].message.content;
+      console.log(resp.data.choices[0]);
       res.render("index", {
         data: data,
       });
